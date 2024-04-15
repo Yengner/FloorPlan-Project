@@ -4,7 +4,7 @@ import os
 from PIL import Image
 import numpy as np
 import cv2
-from detectron2dadada.utils.visualizer import Visualizer
+from detectron2.utils.visualizer import Visualizer
 from detectron2.data import MetadataCatalog
 
 from model_setup import get_predictor
@@ -16,7 +16,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['PROCESSED_FOLDER'], exist_ok=True)
 
 # Load model using your utility function and receive both predictor and cfg
-model, cfg = get_predictor("/Users/yb/Desktop/FloorPlan-Project/init_config-3k_iter.yaml", "/Users/yb/Desktop/FloorPlan-Project/model_final.pth")
+model, cfg = get_predictor("/Users/yb/Documents/GitHub/FloorPlan-Project/init_config.yaml", "/Users/yb/Documents/GitHub/FloorPlan-Project/model_final.pth")
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():

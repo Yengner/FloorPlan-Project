@@ -2,7 +2,7 @@
 from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 
-def get_predictor(config_path, weights_path, threshold=0.5):
+def get_predictor(config_path, weights_path, threshold=0.3):
     cfg = get_cfg()
     cfg.merge_from_file(config_path)
     cfg.MODEL.WEIGHTS = weights_path
