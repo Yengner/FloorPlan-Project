@@ -1,13 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Upload Floorplan</title>
+    <meta charset="UTF-8">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            height: 100vh;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 10vh; /* Adjusted to bring the form higher on the page */
+            width: 50%; /* Adjust width as necessary */
+        }
+        input[type=file] {
+            border: 1px solid #ddd;
+            padding: 8px;
+            width: 90%;
+            margin-bottom: 10px;
+        }
+        input[type=button] {
+            background-color: #0056b3;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 8px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 93%;
+        }
+        input[type=button]:hover {
+            background-color: #004494;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 50%;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload your floorplan</h1>
-    <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <input type=submit value=Upload>
+    <h1>Upload your image</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="file">
+        <input type="button" value="Upload" onclick="uploadFile()">
     </form>
+    <div id="result"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function uploadFile() {
+            var formData = new FormData(document.getElementById('uploadForm'));
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        $('#result').html('<img src="/processed/' + response.image_path.split('/').pop() + '" alt="Processed Image"/>');
+                    } else {
+                        $('#result').text('Error: ' + response.error);
+                    }
+                },
+                error: function() {
+                    $('#result').text('File upload failed.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
